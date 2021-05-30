@@ -1,0 +1,136 @@
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+#video-container {
+  width: 298px;
+  height: 284px;
+  position: relative;
+  mix-blend-mode: difference;
+}
+
+.layer {
+  position: absolute;
+  width: 298px !important;
+  height: 284px;
+  top: 114px;
+  left: 85px;
+}
+
+#pose-video {
+  transform: scaleX(-1);
+}
+
+#pose-result {
+  color: black;
+  font-size: 100px;
+  text-align: right;
+  padding: 20px 30px 0 0;
+  font-weight: 100;
+  font-variation-settings: "wght" 100, "wdth" 330;
+  color: #fff;
+}
+
+.selectedStep {
+  text-shadow: 0px 1px 10px #f9bf2e;
+  color: #F9BF2E !important;
+
+}
+
+.markedNumber {
+    border: 0.5px solid #ff5722;
+    padding: 4px 14px;
+    box-shadow: 0px 0px 1px 0px #f44336;
+    border-radius: 4px;
+}
+
+
+h3{
+  font-size: 12px;
+  font-family: 'Futura';
+  font-weight: 100;
+  color: #fff;
+}
+
+.smallMargin{
+  margin: 8px 0;
+}
+
+.ledOn {
+  background: #00FF85;
+  box-shadow: 0px 0px 11px 1px #00ff85;
+}
+
+.ledOff {
+  background: #00570E;
+  box-shadow: 0px 0px 4px 0px #000;
+}
+
+.minorOn {
+  background: #00FFD1;
+  box-shadow: 0px 0px 11px 1px #00FFD1;
+}
+
+.minorOff {
+  background: #036D5A;
+  box-shadow: 0px 0px 4px 0px #000;
+}
+
+.rangeslider-vertical, .rangeslider-vertical .rangeslider__fill {
+  height: 78px !important;
+  width: 16px !important;
+  background: #000 !important;
+  border-radius: 5px;
+}
+
+
+.rangeslider-vertical .rangeslider__handle {
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 15px !important;
+  background: #15B1CA !important;
+  left: 0.5px !important;
+  border: none !important;
+}
+
+
+button, video, svg, input, p, h2, img, span, .rangeslider {
+  -webkit-app-region: no-drag;
+}

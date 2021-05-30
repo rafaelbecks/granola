@@ -1,0 +1,96 @@
+{
+  "name": "granola",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "react-rangeslider": "^2.2.0"
+  },
+  "main": "src/electron.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder "
+  },
+  "build": {
+    "asar": false,
+    "extends": null,
+    "appId": "handsign.midi.controller",
+    "mac": {
+      "category": "handsign.midi.controller"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.56",
+    "@electron-forge/maker-deb": "^6.0.0-beta.56",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.56",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.56",
+    "@electron-forge/maker-zip": "^6.0.0-beta.56",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "electron": "^12.0.9",
+    "electron-builder": "^22.10.5",
+    "electron-squirrel-startup": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-rotary-knob": "^1.1.8",
+    "react-rotary-knob-skin-pack": "^1.0.2",
+    "react-scripts": "4.0.3",
+    "react-svg": "^13.0.4",
+    "styled-components": "^5.2.3",
+    "web-vitals": "^1.0.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Granola"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
