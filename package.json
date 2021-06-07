@@ -4,7 +4,10 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-    "react-rangeslider": "^2.2.0"
+    "granular-js": "^0.6.0",
+    "p5": "0.9",
+    "react-rangeslider": "^2.2.0",
+    "waveform-data": "^3.3.4"
   },
   "main": "src/electron.js",
   "scripts": {

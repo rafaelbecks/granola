@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef } from 'react'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import * as skins from 'react-rotary-knob-skin-pack'
@@ -6,6 +6,8 @@ import { Knob } from 'react-rotary-knob'
 
 import circlesBottom from '../../assets/screw-circles-bottom.svg'
 import granolaIcon from '../../assets/granola-icon.svg'
+import greenScreen from '../../assets/green-screen.mov'
+import oscilloscope from '../../assets/oscilloscope.png'
 
 import {
   DeviceLayout,
@@ -21,7 +23,10 @@ import {
   SlidersContainer,
   KnobContainer,
   Control,
-  Separator
+  Separator,
+  DeviceSelect,
+  OscilloscopeScreen,
+  GridScreen
 } from './styles'
 
 import { Labels } from '../../components/SliderSwitch/styles'
@@ -33,9 +38,26 @@ const Screws = () => (
   </>
 )
 
-const Layout = () => {
-  const [attack, setAttack] = useState(0)
-  const [release, setRelease] = useState(0)
+const Layout = (
+  {
+    audioDevices,
+    selectedAudioDevice,
+    onSelectAudioDevice,
+    player
+  }
+) => {
+  const audioSelect = useRef(null)
+  const [attack, setAttack] = useState(0.5)
+  const [decay, setDecay] = useState(0.5)
+  const [audioInput, setAudioInput] = useState(0.8)
+  const [mix, setMix] = useState(1)
+  const [pitch, setPitch] = useState(1)
+  const [spread, setSpread] = useState(0.5)
+  const [density, setDensity] = useState(0.3)
+  const [reverb, setReverb] = useState(0.3)
+  const [sampleSize, setSampleSize] = useState(50)
+  const [reverbDecay, setReverbDecay] = useState(6)
+  const [reverbTime, setReverbTime] = useState(3)
 
   return (
     <DeviceLayout>
@@ -53,9 +75,26 @@ const Layout = () => {
         <DeviceSection>
           <DeviceColumn>
             <h2>AUDIO SOURCE</h2>
-            <Row>
+            <Row style={{ marginBottom: 0 }}>
               <GreenScreenContainer>
-                <GreenScreen value='audio source' />
+                <GreenScreen
+                  style={{ width: '150px' }}
+                  onClick={() => {
+                    audioSelect.current.focus()
+                  }}
+                >{audioDevices[selectedAudioDevice]
+                  ? audioDevices[selectedAudioDevice].label.substring(0, audioDevices[selectedAudioDevice].label.indexOf('('))
+                  : 'NO DEVICE SELECTED'}
+                </GreenScreen>
+                <DeviceSelect
+                  ref={audioSelect} onChange={async (e) => {
+                    await onSelectAudioDevice(Number(e.target.value))
+                  }}
+                  value={selectedAudioDevice}
+                >
+                  <option value='-1'>No device selected </option>
+                  {audioDevices.map(({ id, label }, index) => (<option value={index} key={index}>{label}</option>))}
+                </DeviceSelect>
               </GreenScreenContainer>
             </Row>
 
@@ -64,11 +103,17 @@ const Layout = () => {
               <div className='slider-vertical'>
                 <Slider
                   min={0}
-                  max={100}
+                  max={1}
+                  step={0.1}
                   tooltip={false}
                   value={attack}
                   orientation='vertical'
-                  onChange={(value) => { console.log('value', value); setAttack(value) }}
+                  onChange={(value) => {
+                    if (window.granular) {
+                      window.granular.state.envelope.attack = value
+                    }
+                    setAttack(value)
+                  }}
                 />
                 <Labels><label>attack</label></Labels>
               </div>
@@ -77,12 +122,35 @@ const Layout = () => {
                   min={0}
                   max={100}
                   tooltip={false}
-                  value={release}
+                  value={decay}
                   orientation='vertical'
-                  onChange={(value) => { console.log('value', value); setRelease(value) }}
+                  onChange={(value) => {
+                    if (window.granular) {
+                      window.granular.state.envelope.decay = value
+                    }
+                    setDecay(value)
+                  }}
                 />
                 <Labels><label>release</label></Labels>
               </div>
+              <div className='slider-vertical'>
+                <Slider
+                  min={10}
+                  max={100}
+                  tooltip={false}
+                  step={10}
+                  value={sampleSize}
+                  orientation='vertical'
+                  onChange={(value) => {
+                    if (window.granular) {
+                      window.sampleSize = value
+                    }
+                    setSampleSize(value)
+                  }}
+                />
+                <Labels><label>sample size</label></Labels>
+              </div>
+
             </SlidersContainer>
             <Row>
               <Control>
@@ -91,16 +159,18 @@ const Layout = () => {
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
-                      window.midiConfig.velocity = val
+                      setDensity(val)
+                      if (window.granular) {
+                        window.granular.state.density = val
+                      }
                     }}
-                    min={0.5}
-                    max={2}
-                  // value={velocity}
+                    min={0}
+                    max={1}
+                    value={density}
                     skin={skins.s13}
                     preciseMode={false}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{density.toFixed(2)}</span>
                 </KnobContainer>
               </Control>
               <Control>
@@ -109,16 +179,18 @@ const Layout = () => {
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
-                      window.midiConfig.velocity = val
+                      setSpread(val)
+                      if (window.granular) {
+                        window.granular.state.spread = val
+                      }
                     }}
-                    min={0.5}
-                    max={2}
-                  // value={velocity}
+                    min={0}
+                    max={1}
+                    value={spread}
                     skin={skins.s13}
                     preciseMode={false}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{Math.round(spread * 100) / 100}</span>
                 </KnobContainer>
               </Control>
               <Control>
@@ -127,16 +199,20 @@ const Layout = () => {
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
-                      window.midiConfig.velocity = val
+                      setPitch(Math.ceil(val))
+                      if (window.granular) {
+                        window.granular.state.pitch = Math.ceil(val)
+                      }
                     }}
-                    min={0.5}
-                    max={2}
-                  // value={velocity}
+                    min={0}
+                    max={3}
+                    step={1}
+                    value={pitch}
                     skin={skins.s13}
                     preciseMode={false}
+                    rotateDegrees={120}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{Math.round(pitch * 100) / 100}</span>
                 </KnobContainer>
               </Control>
             </Row>
@@ -151,15 +227,16 @@ const Layout = () => {
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
+                      setReverbDecay(Math.ceil(val))
+                      window.reverb._decay = Math.ceil(val)
                     }}
-                    min={0.5}
-                    max={2}
-                  // value={velocity}
+                    min={20}
+                    max={1}
+                    value={reverbDecay}
                     skin={skins.s13}
                     preciseMode={false}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{reverbDecay}</span>
                 </KnobContainer>
               </Control>
               <Control>
@@ -168,38 +245,84 @@ const Layout = () => {
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
+                      if (window.reverb) {
+                        window.reverb.drywet(val)
+                      }
+                      setReverb(val)
                     }}
-                    min={0.5}
+                    min={0}
                     max={2}
-                  // value={velocity}
+                    value={reverb}
                     skin={skins.s13}
                     preciseMode={false}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{reverb.toFixed(2)}</span>
                 </KnobContainer>
               </Control>
               <Control>
-                <h3>PRE-DELAY</h3>
+                <h3>TIME</h3>
                 <KnobContainer>
                   <Knob
                     unlockDistance={0}
                     onChange={(val) => {
-                      // setVelocity(val)
+                      setReverbTime(Math.ceil(val))
+                      window.reverb._seconds = Math.ceil(val)
                     }}
-                    min={0.5}
-                    max={2}
-                  // value={velocity}
+                    min={1}
+                    max={10}
+                    value={reverbTime}
                     skin={skins.s13}
                     preciseMode={false}
                   />
-                  {/* <span>{Math.round(velocity * 100) / 100}</span> */}
+                  <span>{reverbTime}</span>
                 </KnobContainer>
               </Control>
             </Row>
           </DeviceColumn>
           <DeviceColumn>
             <h2>OUTPUT</h2>
+            <Row sytle={{
+              justifyContent: 'space-evenly'
+            }}
+            >
+              <div>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  tooltip={false}
+                  orientation='horizontal'
+                  value={mix}
+                  onChange={(value) => {
+                    setMix(value)
+                    if (window.granular) {
+                      window.granular.gain.gain.value = value
+                      window.gainNode.gain.value = 0.1
+                    }
+                  }}
+                />
+                <Labels><label>mix</label></Labels>
+              </div>
+              <div>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  tooltip={false}
+                  value={audioInput}
+                  orientation='horizontal'
+                  onChange={(value) => { setAudioInput(value); window.gain.gain.value = value }}
+                />
+                <Labels><label>output</label></Labels>
+              </div>
+
+            </Row>
+
+            <h2>WAVEFORM</h2>
+            <OscilloscopeScreen src={greenScreen} muted loop autoPlay noControls />
+            <GridScreen src={oscilloscope} />
+            <div id='js-oscilloscope' />
+
           </DeviceColumn>
         </DeviceSection>
       </DeviceContent>

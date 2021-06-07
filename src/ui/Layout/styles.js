@@ -47,7 +47,7 @@ const LeftCircleBottom = styled.img`
     left: 0;
 `
 
-const DeviceName = styled.h1`
+const DeviceName = styled.div`
   color: #fff;
   margin: 0;
   margin-bottom: 12px;
@@ -96,7 +96,7 @@ const DeviceContent = styled.div`
     align-items: center;
 `
 
-const GreenScreen = styled.input`
+const GreenScreen = styled.div`
     height: 38px;
     width: fit-content;
     min-width: 20px;
@@ -112,7 +112,6 @@ const GreenScreen = styled.input`
     font-weight: normal;
     font-size: 12px;
     color: #FAFFBC;
-    border: none;
     text-align: center;
 `
 
@@ -144,26 +143,24 @@ const SmallSeparator = styled.div`
 
 const GreenScreenContainer = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
 `
 
 const GridScreen = styled.img`
     position: absolute;
     width: 304px !important;
-    top: 106px;
-    left: 82px;
+    top: 286px;
     height: 336px;
-    mix-blend-mode: screen;
-`
+    mix-blend-mode: screen`
 
 const OscilloscopeScreen = styled.video`
-    position: absolute;
     width: 298px !important;
     height: 284px;
-    top: 114px;
-    left: 85px;
+    margin-top: 20px;
     object-fit: cover;
     box-shadow: 0px 0px 7px 1px rgb(0 0 0 / 75%);
+    mix-blend-mode:difference;
 `
 
 const ScreenMessage = styled.h2`
@@ -204,6 +201,13 @@ const SlidersContainer = styled.div`
     margin: -2px 0px 9px 0px;
     display: flex;
 `
+const DeviceSelect = styled.select`
+    opacity: 0;
+    position: relative;
+    bottom: 39px;
+    width: 170px;
+    height: 38px;
+`
 
 export {
   DeviceLayout,
@@ -226,5 +230,6 @@ export {
   GridScreen,
   KnobContainer,
   DeviceColumn,
-  SlidersContainer
+  SlidersContainer,
+  DeviceSelect
 }

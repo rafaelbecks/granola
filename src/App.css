@@ -117,11 +117,12 @@ h3{
   height: 78px !important;
   width: 16px !important;
   background: #000 !important;
-  border-radius: 5px;
+  max-width: unset !important;
+  border-radius: 10px !important;
 }
 
 
-.rangeslider-vertical .rangeslider__handle {
+.rangeslider-vertical .rangeslider__handle{
   width: 15px !important;
   height: 15px !important;
   border-radius: 15px !important;
@@ -131,6 +132,47 @@ h3{
 }
 
 
+
+.rangeslider-horizontal, .rangeslider-horizontal .rangeslider__fill  {
+  height: 16px !important;
+  width: 95px !important;
+  background: #000 !important;
+  max-width: unset !important;
+  border-radius: 10px !important;
+}
+
+
+.rangeslider-horizontal .rangeslider__handle{
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 15px !important;
+  background: #15B1CA !important;
+  top: 8px !important;
+  border: none !important;
+}
+
+.rangeslider-horizontal .rangeslider__handle:after{
+display: none;
+}
+
 button, video, svg, input, p, h2, img, span, .rangeslider {
   -webkit-app-region: no-drag;
+}
+
+audio {
+  display: none;
+}
+
+#js-oscilloscope{
+  height: 290px;
+  position: absolute;
+  width: 292px;
+  top: 342px
+}
+
+.oscilloscope__wave {
+	fill: none;
+
+    stroke: #20EDFD;
+    stroke-width: 2px;
 }
