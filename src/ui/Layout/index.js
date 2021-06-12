@@ -26,7 +26,8 @@ import {
   Separator,
   DeviceSelect,
   OscilloscopeScreen,
-  GridScreen
+  GridScreen,
+  LissajousCanvas
 } from './styles'
 
 import { Labels } from '../../components/SliderSwitch/styles'
@@ -202,6 +203,8 @@ const Layout = (
                       setPitch(Math.ceil(val))
                       if (window.granular) {
                         window.granular.state.pitch = Math.ceil(val)
+                        window.stopAnimation()
+                        window.startAnimation()
                       }
                     }}
                     min={0}
@@ -317,15 +320,23 @@ const Layout = (
               </div>
 
             </Row>
-
+            <Separator />
             <h2>WAVEFORM</h2>
             <OscilloscopeScreen src={greenScreen} muted loop autoPlay noControls />
             <GridScreen src={oscilloscope} />
-            <div id='js-oscilloscope' />
+            <canvas
+              style={{
+                position: 'absolute',
+                top: '393px'
+              }} id='oscilloscope'
+            />
+
+            <LissajousCanvas id='lissajous' width='400' height='400' />
 
           </DeviceColumn>
         </DeviceSection>
       </DeviceContent>
+
     </DeviceLayout>
   )
 }

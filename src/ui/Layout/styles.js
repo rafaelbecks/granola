@@ -150,7 +150,7 @@ const GreenScreenContainer = styled.div`
 const GridScreen = styled.img`
     position: absolute;
     width: 304px !important;
-    top: 286px;
+    top: 317px;
     height: 336px;
     mix-blend-mode: screen`
 
@@ -209,6 +209,15 @@ const DeviceSelect = styled.select`
     height: 38px;
 `
 
+const LissajousCanvas = styled.canvas`
+    transform: scale(0.6);
+    position: absolute;
+    bottom: 57px;
+    right: 11px;
+    z-index: 0;
+    mix-blend-mode: color-dodge;
+`
+
 export {
   DeviceLayout,
   Container,
@@ -231,5 +240,6 @@ export {
   KnobContainer,
   DeviceColumn,
   SlidersContainer,
-  DeviceSelect
+  DeviceSelect,
+  LissajousCanvas
 }

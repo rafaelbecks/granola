@@ -18,7 +18,7 @@ function createWindow () {
     height: 721,
     titleBarStyle: 'hiddenInset',
     resizable: false,
-    title: 'HANDSIGN MIDI INTERFACE',
+    title: 'GRANOLA',
     webPreferences: {
       devTools: false
     }

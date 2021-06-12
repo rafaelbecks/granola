@@ -1,8 +1,7 @@
 import p5 from 'p5'
 import 'p5/lib/addons/p5.sound'
 import Granular from 'granular-js'
-
-import Oscilloscope from '../lib/oscilloscope'
+import { initOscilloscope, initLissajous } from '../animations'
 import { flattenArray, writeUTFBytes, interleave } from '../buffer'
 
 let recorder
@@ -30,10 +29,8 @@ const initGranularEngine = async () => {
 
   source.connect(window.gain)
 
-  const oscilloscope = new Oscilloscope('#js-oscilloscope', context)
-  window.gain.connect(oscilloscope.analyserNode)
-  oscilloscope.start()
-
+  initOscilloscope(source)
+  initLissajous()
   source.connect(processor)
   processor.connect(context.destination)
 
@@ -74,7 +71,7 @@ const initGranularEngine = async () => {
 
   const compressor = new p5.Compressor()
 
-  compressor.process(oscilloscope, 0.005, 6, 10, -24, 0.05) // [attack], [knee], [ratio], [threshold], [release]
+  compressor.process(source, 0.005, 6, 10, -24, 0.05) // [attack], [knee], [ratio], [threshold], [release]
 
   // granular.on('settingBuffer', () => console.log('setting buffer'))
   // granular.on('bufferSet', () => console.log('buffer set'))

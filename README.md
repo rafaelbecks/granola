@@ -2,7 +2,7 @@
 
 Real time granular delay / reverb. Built in javascript using processing and granular-js (https://github.com/philippfromme/granular-js).
 
-![](https://ex-reality.s3.amazonaws.com/granola.png)
+![](https://ex-reality.s3.amazonaws.com/granola-ui.jpg)
 
 ## Running
 

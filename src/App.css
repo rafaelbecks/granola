@@ -163,16 +163,4 @@ audio {
   display: none;
 }
 
-#js-oscilloscope{
-  height: 290px;
-  position: absolute;
-  width: 292px;
-  top: 342px
-}
 
-.oscilloscope__wave {
-	fill: none;
-
-    stroke: #20EDFD;
-    stroke-width: 2px;
-}
