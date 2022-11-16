@@ -9,12 +9,16 @@ function App () {
   const [selectedAudioDevice, selectAudioDevice] = useState(-1)
   window.audioStream = null
 
+// eslint-disable-next-line
   useEffect(async () => {
     const devices = await navigator.mediaDevices.enumerateDevices()
     const audioDevices = devices.filter((d) => d.kind === 'audioinput')
-    console.log('devices', audioDevices)
     setAudioDevices(audioDevices)
   }, [])
+
+  useEffect(() => {
+    console.log('audioDevices', audioDevices)
+  }, [audioDevices])
 
   const playSoundFromDevice = async (index) => {
     if (index >= 0) {

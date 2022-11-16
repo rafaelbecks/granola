@@ -27,8 +27,11 @@ import {
   DeviceSelect,
   OscilloscopeScreen,
   GridScreen,
-  LissajousCanvas
+  LissajousCanvas,
+  SmallContainer
 } from './styles'
+
+import { Led } from '../Leds/styles'
 
 import { Labels } from '../../components/SliderSwitch/styles'
 
@@ -48,17 +51,17 @@ const Layout = (
   }
 ) => {
   const audioSelect = useRef(null)
-  const [attack, setAttack] = useState(0.5)
-  const [decay, setDecay] = useState(0.5)
-  const [audioInput, setAudioInput] = useState(0.8)
+  const [attack, setAttack] = useState(0.8)
+  const [decay, setDecay] = useState(0.7)
   const [mix, setMix] = useState(1)
-  const [pitch, setPitch] = useState(1)
-  const [spread, setSpread] = useState(0.5)
-  const [density, setDensity] = useState(0.3)
+  const [pitch, setPitch] = useState(2)
+  const [spread, setSpread] = useState(0.6)
+  const [density, setDensity] = useState(0.8)
   const [reverb, setReverb] = useState(0.3)
   const [sampleSize, setSampleSize] = useState(50)
   const [reverbDecay, setReverbDecay] = useState(6)
   const [reverbTime, setReverbTime] = useState(3)
+
 
   return (
     <DeviceLayout>
@@ -99,7 +102,7 @@ const Layout = (
               </GreenScreenContainer>
             </Row>
 
-            <h2>GRANULAR ENGINE</h2>
+            <h2>GRANULAR ENGINE {window.status}</h2>
             <SlidersContainer>
               <div className='slider-vertical'>
                 <Slider
@@ -121,7 +124,8 @@ const Layout = (
               <div className='slider-vertical'>
                 <Slider
                   min={0}
-                  max={100}
+                  max={1}
+                  step={0.1}
                   tooltip={false}
                   value={decay}
                   orientation='vertical'
@@ -132,7 +136,7 @@ const Layout = (
                     setDecay(value)
                   }}
                 />
-                <Labels><label>release</label></Labels>
+                <Labels><label>decay</label></Labels>
               </div>
               <div className='slider-vertical'>
                 <Slider
@@ -306,22 +310,16 @@ const Layout = (
                 />
                 <Labels><label>mix</label></Labels>
               </div>
-              <div>
-                <Slider
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  tooltip={false}
-                  value={audioInput}
-                  orientation='horizontal'
-                  onChange={(value) => { setAudioInput(value); window.gain.gain.value = value }}
-                />
-                <Labels><label>output</label></Labels>
-              </div>
 
             </Row>
             <Separator />
+            <SmallContainer>
             <h2>WAVEFORM</h2>
+              <SmallContainer style={{margin: '0px 12px'}}>
+                <Led className="ledOff" id="bufferLed" style={{position: 'relative', marginRight: '10px'}}/>
+                <label>buffer start</label>
+              </SmallContainer>
+            </SmallContainer>
             <OscilloscopeScreen src={greenScreen} muted loop autoPlay noControls />
             <GridScreen src={oscilloscope} />
             <canvas

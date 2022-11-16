@@ -218,6 +218,17 @@ const LissajousCanvas = styled.canvas`
     mix-blend-mode: color-dodge;
 `
 
+const SmallContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    label{
+        color: #fff;
+        font-size: 12px;
+        font-family: 'Futura';
+    }
+`
+
 export {
   DeviceLayout,
   Container,
@@ -241,5 +252,6 @@ export {
   DeviceColumn,
   SlidersContainer,
   DeviceSelect,
-  LissajousCanvas
+  LissajousCanvas,
+  SmallContainer
 }

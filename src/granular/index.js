@@ -47,13 +47,28 @@ const initGranularEngine = async () => {
   window.granular = new Granular({
     audioContext: context,
     envelope: {
-      attack: 0.5,
-      decay: 0.5
+      attack: 0.8,
+      decay: 0.7
     },
-    density: 0.3,
-    spread: 0.5,
-    pitch: 1
+    density: 0.8,
+    spread: 0.6,
+    pitch: 2
   })
+
+  window.granular.on('bufferSet', () => {
+    const bufferLed = document.getElementById('bufferLed')
+    bufferLed.classList.remove('ledOff')
+    bufferLed.classList.add('ledOn')
+  });
+
+  window.granular.on('grainCreated', ({ gain, position }) => {
+    const bufferLed = document.getElementById('bufferLed')
+
+    if(bufferLed.classList.contains('ledOn')){
+        bufferLed.classList.remove('ledOn')
+        bufferLed.classList.add('ledOff')
+    }
+  });
 
   window.gainNode = window.granular.context.createGain()
 
@@ -84,7 +99,6 @@ const initGranularEngine = async () => {
 
     selectedSize++
     if (selectedSize % window.sampleSize === 0 && !window.granularStop) {
-      console.log('sampling')
       sampleSize++
       const leftBuffer = flattenArray(leftchannel, recordingLength)
       const rightBuffer = flattenArray(rightchannel, recordingLength)
@@ -129,7 +143,6 @@ const initGranularEngine = async () => {
         sampleSize = 0
       }
       await window.granular.setBuffer(finalBuffer)
-
       if (!voiceInit) {
         voiceInit = true
         window.granularId = window.granular.startVoice({
